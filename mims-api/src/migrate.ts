@@ -1,9 +1,14 @@
 import { Client } from 'pg';
 
-// Use the container hostname 'db' if inside Docker, or localhost if running locally
 const connectionString = process.env.DATABASE_URL || 'postgres://mims_user:secure_password_123@localhost:5432/mims_geo_db';
 
-const client = new Client({ connectionString });
+// LOGIC: If the URL contains "localhost", disable SSL. Otherwise (Render), enable it.
+const isLocal = connectionString.includes('localhost') || connectionString.includes('127.0.0.1');
+
+const client = new Client({ 
+  connectionString,
+  ssl: isLocal ? false : { rejectUnauthorized: false }
+});
 
 const createTableQuery = `
   CREATE EXTENSION IF NOT EXISTS postgis;
@@ -20,7 +25,6 @@ const createTableQuery = `
 
   CREATE INDEX IF NOT EXISTS incidents_geom_idx ON incidents USING GIST (geom);
   
-  -- Insert a dummy record for testing (Coordinates for Saint Paul, MN)
   INSERT INTO incidents (type, confidence, geom, expires_at)
   VALUES (
     'CHECKPOINT', 
