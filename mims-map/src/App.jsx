@@ -6,11 +6,11 @@ function App() {
   return (
     <div style={{ 
       position: 'relative', 
-      height: '100dvh', // Changed from 100vh to 100dvh (Dynamic Viewport Height)
+      height: '100dvh',   // <--- Crucial for mobile!
       width: '100vw', 
       margin: 0, 
       padding: 0,
-      overflow: 'hidden' // Prevents scrolling so the map stays fixed
+      overflow: 'hidden'  // <--- Stops the page from bouncing
     }}>
       <MapLayer />
       <ReportButton />
