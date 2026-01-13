@@ -1,10 +1,61 @@
-.map-wrapper {
-  height: 100vh; /* Full viewport height */
-  width: 100%;
+/* Ensure the container fills the available space */
+.map-container {
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Dynamic Viewport Height for mobile browsers */
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Fix for standard Leaflet tile loading issues */
+/* Fix for Leaflet z-index issues in some React setups */
 .leaflet-container {
-  height: 100%;
-  width: 100%;
+  z-index: 1;
+}
+
+/* Dark Mode Friendly Tiles (Optional - reduces glare for night ops) */
+/* .map-tiles {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+} */
+
+/* Floating Legend */
+.map-legend {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  z-index: 1000; /* Above Leaflet map */
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-family: sans-serif;
+  font-size: 0.9rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.dot.red { background-color: #ff3333; opacity: 0.7; }
+.dot.green { background-color: #33ff33; opacity: 0.7; }
+.dot.blue { background-color: #3388ff; opacity: 0.7; }
+
+/* Mobile Optimizations */
+@media (max-width: 600px) {
+  .map-legend {
+    bottom: 20px;
+    left: 10px;
+    font-size: 0.8rem;
+    padding: 8px;
+  }
 }
