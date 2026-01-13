@@ -1,6 +1,6 @@
 import React from 'react';
 import MapLayer from './MapLayer';
-import ReportButton from './Components/ReportButton';
+import ReportButton from './components/ReportButton';
 
 function App() {
   return (
