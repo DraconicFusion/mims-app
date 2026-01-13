@@ -28,7 +28,10 @@ const ReportButton = () => {
       };
 
       try {
-        const response = await fetch('http://localhost:3000/api/v1/reports', {
+        // FIX: Use the Vercel Environment Variable instead of localhost
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+        
+        const response = await fetch(`${apiUrl}/api/v1/reports`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -38,7 +41,6 @@ const ReportButton = () => {
           alert('Report submitted successfully!');
           setIsOpen(false);
           setFormData({ type: 'CHECKPOINT', description: '' });
-          // Optional: Refresh page to see new marker
           window.location.reload(); 
         } else {
           alert('Failed to submit report.');
@@ -61,7 +63,8 @@ const ReportButton = () => {
         onClick={() => setIsOpen(true)}
         style={{
           position: 'absolute',
-          bottom: '20px',
+          // FIX: Move up to avoid mobile address bars and home swipe bars
+          bottom: 'calc(30px + env(safe-area-inset-bottom))',
           right: '20px',
           zIndex: 1000,
           padding: '15px 20px',
@@ -83,7 +86,8 @@ const ReportButton = () => {
   return (
     <div style={{
       position: 'absolute',
-      bottom: '80px',
+      // FIX: Move form higher so keyboard doesn't cover "Submit"
+      bottom: 'calc(100px + env(safe-area-inset-bottom))',
       right: '20px',
       zIndex: 1000,
       backgroundColor: 'white',
